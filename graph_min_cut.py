@@ -3,29 +3,13 @@ import copy
 """
 Implementation of Random Contraction Algorithm
 
-
-
 """
-f = open("kargerMinCut.txt")
-print(f)
-adjacency_list = [[]]
-for i in f:
-    i = i[:-1]
-    i = i.split("\t")
-    adjacency_list.append([int(i[x]) for x in range(1,len(i))])
 
-print(adjacency_list)
-lst_2 = [[],[2,3],[1,3,4],[1,2,4],[2,3]]
-
-
+#Returns vertex count of an adjacency list.
 def v_count(adj_lst):
     return sum([1 for x in adj_lst if x])
 
-def adjacent_vertices(adj_lst, u, v):
-    min_u = min(u,v)
-    max_v = max(u,v)
-    return max_v in adj_lst[min_u]
-
+#Contract two node together with given nodes.
 def contraction(adj_lst, u, v):
     min_u = min(u,v)
     max_v = max(u,v)
@@ -42,11 +26,11 @@ def contraction(adj_lst, u, v):
                 i[j] = min_u
     return None
 
-
+#Returns the list of remaining nodes
 def remaining_indexes(adj_lst):
     return [x for x in range(len(adj_lst)) if adj_lst[x]]
 
-
+#Apply One Minimum Cut algorithm.
 def min_cut(lst):
     adj_lst = copy.deepcopy(lst)
     while v_count(adj_lst) >2:
@@ -56,6 +40,8 @@ def min_cut(lst):
         contraction(adj_lst, u, v)
     print(adj_lst)
     return len(adj_lst[1])
+
+#Applies multiple Minimum Cut Algorithm.
 def multiple_min_cut(adj_lst):
     minimum = 9999999
     for _ in range(500):
